@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./style.css";
+import "./index.css";
 
 export default function App() {
   const [currentOperand, setCurrentOperand] = useState("");
@@ -13,31 +13,26 @@ export default function App() {
   function handleOperation(op) {
     const current = parseFloat(currentOperand);
     setOperation(op);
-if(!isNaN(current)){
-  if(previousOperand!==null){
-    let newResult;
-    if(operation==="+"){
-newResult=previousOperand+current;
+    if (!isNaN(current)) {
+      if (previousOperand !== null) {
+        let newResult;
+        if (operation === "+") {
+          newResult = previousOperand + current;
+        } else if (operation === "-") {
+          newResult = previousOperand - current;
+        } else if (operation === "*") {
+          newResult = previousOperand * current;
+        } else if (operation === "÷") {
+          newResult = previousOperand / current;
+        } else {
+          newResult = current;
+        }
+        setPreviousOperand(newResult);
+      } else {
+        setPreviousOperand(current);
+      }
     }
-    else if(operation==="-"){
-      newResult=previousOperand-current;
-    }
-    else if(operation==="*"){
-      newResult=previousOperand*current;
-    }
-    else if(operation==="÷"){
-      newResult=(previousOperand/current);
-    }
-    else{
-      newResult=current;
-    }
-setPreviousOperand(newResult);
-  }
-  else{
-    setPreviousOperand(current);
-  }
-}
-setCurrentOperand("");
+    setCurrentOperand("");
   }
 
   function clear() {
@@ -54,20 +49,21 @@ setCurrentOperand("");
         newResult = previousOperand + current;
       } else if (operation === "-") {
         newResult = previousOperand - current;
-      } 
-      else if(operation==="*"){
-        newResult=previousOperand*current;
-      }
-      else if(operation==="÷"){
-        newResult=(previousOperand/current);
-      }
-      else {
+      } else if (operation === "*") {
+        newResult = previousOperand * current;
+      } else if (operation === "÷") {
+        newResult = previousOperand / current;
+      } else {
         newResult = current;
       }
       setCurrentOperand(newResult.toString());
       setPreviousOperand(null);
       setOperation(null);
     }
+  }
+
+  function handleDelete() {
+    setCurrentOperand((prev) => prev.slice(0, -1));
   }
 
   return (
@@ -77,12 +73,12 @@ setCurrentOperand("");
         <div className="current-operand">{currentOperand || previousOperand}</div>
       </div>
       <button className="span-two" onClick={clear}>AC</button>
-      <button>DEL</button>
-      <button onClick={()=> handleOperation("÷")}>÷</button>
+      <button onClick={handleDelete}>DEL</button>
+      <button onClick={() => handleOperation("÷")}>÷</button>
       <button onClick={() => handleClick("1")}>1</button>
       <button onClick={() => handleClick("2")}>2</button>
       <button onClick={() => handleClick("3")}>3</button>
-      <button onClick={()=> handleOperation("*")}>*</button>
+      <button onClick={() => handleOperation("*")}>*</button>
       <button onClick={() => handleClick("4")}>4</button>
       <button onClick={() => handleClick("5")}>5</button>
       <button onClick={() => handleClick("6")}>6</button>
